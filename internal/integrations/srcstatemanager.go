@@ -139,5 +139,7 @@ func (s *SrcStateManager) validateFillers(
 }
 
 func isPendingOrder(at *big.Int, expiry uint32, fulfilled bool) bool {
-	return !fulfilled && uint64(expiry) > at.Uint64()
+	// TODO: add block check
+	//  && uint64(expiry) > at.Uint64()
+	return !fulfilled
 }

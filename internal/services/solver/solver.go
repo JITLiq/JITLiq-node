@@ -36,12 +36,12 @@ func (s *Solver) Solve(ctx context.Context, orderID common.Hash) (*entity.Attest
 		return nil, err
 	}
 
-	if err = s.validator.ValidatePendingOrder(ctx, new(big.Int).SetInt64(int64(latestSrc)), orderID); err != nil {
+	order, err := s.validator.Order(ctx, new(big.Int).SetInt64(int64(latestSrc)), orderID)
+	if err != nil {
 		return nil, err
 	}
 
-	order, err := s.validator.Order(ctx, new(big.Int).SetInt64(int64(latestSrc)), orderID)
-	if err != nil {
+	if err = s.validator.ValidatePendingOrder(ctx, new(big.Int).SetInt64(int64(latestSrc)), orderID); err != nil {
 		return nil, err
 	}
 
