@@ -8,9 +8,12 @@ import (
 )
 
 type Config struct {
-	Signer  string `envconfig:"SIGNER"`
-	ChainID int64  `envconfig:"CHAINID"`
-	P2PHost string `envconfig:"P2PHOST"`
+	Signer     string   `envconfig:"SIGNER"`
+	ChainID    int64    `envconfig:"CHAINID"`
+	P2PHost    string   `envconfig:"P2PHOST"`
+	BaseRPCURL string   `envconfig:"BASE_RPC_URL"`
+	ArbRPCURL  string   `envconfig:"ARB_RPC_URL"`
+	Fillers    []string `envconfig:"FILLERS"`
 }
 
 type Option func(*envConfig)

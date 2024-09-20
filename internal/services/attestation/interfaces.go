@@ -2,6 +2,7 @@ package attestation
 
 import (
 	"context"
+	"math/big"
 
 	"github.com/JITLiq/node/entity"
 	"github.com/ethereum/go-ethereum/common"
@@ -24,4 +25,13 @@ type keyManager interface {
 type attestor interface {
 	AttestAndPublish(ctx context.Context, msg entity.AttestOrderPayload) error
 	PublishRequest(ctx context.Context, msg entity.AttestOrderPayload) error
+}
+
+type validator interface {
+	ValidateSolvedOrder(
+		ctx context.Context,
+		at *big.Int,
+		orderID common.Hash,
+		orders []entity.Order,
+	) error
 }

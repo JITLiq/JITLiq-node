@@ -3,27 +3,45 @@ package attestation
 import (
 	"context"
 	"encoding/json"
+	"math/big"
 
 	"github.com/JITLiq/node/entity"
+	"github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
 type Attestor struct {
-	pub        publisher
-	keyManager keyManager
+	pub         publisher
+	keyManager  keyManager
+	validator   validator
+	blockReader ethereum.BlockNumberReader
 }
 
-func NewAttestor(pub publisher, manager keyManager) *Attestor {
+func NewAttestor(pub publisher, manager keyManager, validator validator) *Attestor {
 	return &Attestor{
 		pub:        pub,
 		keyManager: manager,
+		validator:  validator,
 	}
 }
 
 func (a *Attestor) AttestAndPublish(ctx context.Context, msg entity.AttestOrderPayload) error {
 	orderID, err := hexutil.Decode(msg.OrderID)
 	if err != nil {
+		return err
+	}
+
+	latest, err := a.blockReader.BlockNumber(ctx)
+	if err != nil {
+		return err
+	}
+
+	if err = a.validator.ValidateSolvedOrder(
+		ctx,
+		new(big.Int).SetInt64(int64(latest)),
+		common.HexToHash(msg.OrderID), msg.Orders); err != nil {
 		return err
 	}
 
