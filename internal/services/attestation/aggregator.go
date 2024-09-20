@@ -81,18 +81,21 @@ func (a *Aggregator) Aggregate(
 	}
 }
 
-func (a *Aggregator) Run(ctx context.Context) error {
+func (a *Aggregator) Run(ctx context.Context) {
 	sub, err := a.sub.Subscriber()
 	if err != nil {
-		return err
+		a.logger.Error("failed to create subscriber", zap.Error(err))
+		return
 	}
 
 	defer sub.Cancel()
+
 	a.logger.Info("running attestation manager")
 	for {
 		raw, err := sub.Next(ctx)
 		if err != nil {
-			return err
+			a.logger.Error("failed to read next", zap.Error(err))
+			return
 		}
 
 		a.logger.Info("message received",

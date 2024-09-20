@@ -3,7 +3,10 @@ package peer
 import (
 	"context"
 	"fmt"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/JITLiq/node/config"
@@ -19,6 +22,9 @@ import (
 )
 
 func Run(ctx context.Context, configPath string) error {
+	childCtx, cancelCtx := context.WithCancel(ctx)
+	defer cancelCtx()
+
 	cfg := &config.Config{}
 	err := config.LoadEnvConfig(cfg, config.WithEnvPath(configPath))
 	if err != nil {
@@ -34,7 +40,7 @@ func Run(ctx context.Context, configPath string) error {
 		return err
 	}
 
-	if err = node.SetupPubSub(ctx, entity.ORDER_PUBSUB_TOPIC); err != nil {
+	if err = node.SetupPubSub(childCtx, entity.ORDER_PUBSUB_TOPIC); err != nil {
 		return err
 	}
 
@@ -55,16 +61,37 @@ func Run(ctx context.Context, configPath string) error {
 
 	approvalManager := repo.NewApprovalManager(entity.ToFillers(cfg.Fillers), baseClient)
 
-	srcStateManager, err := integrations.NewSrcStateManager(common.HexToAddress("0x2bCFbC4Dd2Af9Af0458c9aD179A7A5791b0A9502"), arbClient)
+	srcStateManager, err := integrations.NewSrcStateManager(entity.SrcStateManager, arbClient)
 	if err != nil {
 		return err
 	}
 
-	svc := attestation.NewAggregator(node, attestation.NewAttestor(node, signer, srcStateManager))
-	if strings.Contains(configPath, "node1") {
-		go test(ctx, svc, approvalManager, srcStateManager, arbClient, baseClient)
+	aggSvc := attestation.NewAggregator(node, attestation.NewAttestor(node, signer, srcStateManager))
+
+	solverSvc, err := solver.NewSolver(srcStateManager, approvalManager, baseClient, arbClient)
+	if err != nil {
+		panic(err)
 	}
-	return svc.Run(ctx)
+
+	if strings.Contains(configPath, "node1") {
+		// go test(childCtx, aggSvc, approvalManager, srcStateManager, arbClient, baseClient)
+		go processOrders(childCtx, cfg, solverSvc, aggSvc)
+	}
+
+	go aggSvc.Run(childCtx)
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
+
+	for {
+		select {
+		case <-ctx.Done():
+			fmt.Println("manager - Run - context canceled")
+			return nil
+		case s := <-interrupt:
+			fmt.Println("manager - Run - signal: " + s.String())
+			return nil
+		}
+	}
 }
 
 func test(
@@ -77,12 +104,16 @@ func test(
 ) {
 	<-time.After(time.Second * 5)
 
-	solvver, err := solver.NewSolver(stateManager, manager, dest, src)
+	solver, err := solver.NewSolver(stateManager, manager, dest, src)
 	if err != nil {
 		panic(err)
 	}
 
-	ord, err := solvver.Solve(ctx, common.HexToHash(""))
+	ord, err := solver.Solve(ctx, common.HexToHash("0xCFB31A4ECD2159118ED486050DDB966123D2FED1A0494A91EF255D3F2A156027"))
+	if err != nil {
+		panic(err)
+	}
+
 	aggSig, err := agg.Aggregate(ctx, *ord, 2)
 	if err != nil {
 		panic(err)

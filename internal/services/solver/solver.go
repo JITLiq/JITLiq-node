@@ -58,5 +58,6 @@ func (s *Solver) Solve(ctx context.Context, orderID common.Hash) (*entity.Attest
 	return &entity.AttestOrderPayload{
 		OrderID: orderID.Hex(),
 		Orders:  solved,
+		ChainID: entity.ChainIDArb,
 	}, nil
 }
