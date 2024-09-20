@@ -17,6 +17,8 @@ import (
 const (
 	serviceNode         = "node"
 	DiscoveryServiceTag = "jit-liq-node"
+	MaxConnectDelay     = 5
+	maxRetries          = 5
 )
 
 type NodeConfig struct {
@@ -44,15 +46,21 @@ func New(cfg *NodeConfig) (*Node, error) {
 
 func (n *Node) HandlePeerFound(pi peer.AddrInfo) {
 	n.logger.Info("discovered new peer", zap.String("id", pi.ID.String()))
-	rand.Seed(time.Now().UnixNano())
+	n.connectWithRetry(context.Background(), pi)
+}
 
-	// generate a random integer between 0 and 9
-	randomInt := rand.Intn(5)
-	<-time.After(time.Duration(randomInt) * time.Second)
-	err := n.host.Connect(context.Background(), pi)
-	if err != nil {
-		n.logger.Error("error connecting to peer", zap.String("id", pi.ID.String()), zap.Error(err))
+func (n *Node) connectWithRetry(ctx context.Context, pi peer.AddrInfo) {
+	for i := 0; i < maxRetries; i++ {
+		n.logger.Info("trying to connect to peer", zap.String("id", pi.ID.String()))
+		<-time.After(time.Second * time.Duration(rand.Intn(MaxConnectDelay)))
+		err := n.host.Connect(ctx, pi)
+		if err == nil {
+			n.logger.Info("successfully connected to peer", zap.String("id", pi.ID.String()))
+			return
+		}
+		n.logger.Warn("failed to connect to peer, retrying", zap.String("id", pi.ID.String()), zap.Error(err), zap.Int("attempt", i+1))
 	}
+	n.logger.Error("failed to connect to peer after multiple attempts", zap.String("id", pi.ID.String()))
 }
 
 func (n *Node) SetupDiscovery() error {
@@ -76,4 +84,11 @@ func (n *Node) Subscriber() (*pubsub.Subscription, error) {
 
 func (n *Node) Publish(ctx context.Context, data []byte) error {
 	return n.topic.Publish(ctx, data)
+}
+
+func (n *Node) Close() error {
+	if n.topic != nil {
+		n.topic.Close()
+	}
+	return n.host.Close()
 }

@@ -90,7 +90,6 @@ func (a *Aggregator) Run(ctx context.Context) error {
 	defer sub.Cancel()
 	a.logger.Info("running attestation manager")
 	for {
-		fmt.Println("waiating for next")
 		raw, err := sub.Next(ctx)
 		if err != nil {
 			return err

@@ -8,10 +8,14 @@ import (
 
 	"github.com/JITLiq/node/config"
 	"github.com/JITLiq/node/entity"
+	"github.com/JITLiq/node/internal/integrations"
+	"github.com/JITLiq/node/internal/repo"
 	"github.com/JITLiq/node/internal/services/attestation"
+	"github.com/JITLiq/node/internal/services/solver"
 	"github.com/JITLiq/node/pkg/keymanager"
 	"github.com/JITLiq/node/pkg/p2p"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/ethclient"
 )
 
 func Run(ctx context.Context, configPath string) error {
@@ -39,21 +43,50 @@ func Run(ctx context.Context, configPath string) error {
 		return err
 	}
 
-	svc := attestation.NewAggregator(node, attestation.NewAttestor(node, signer))
+	baseClient, err := ethclient.Dial(cfg.BaseRPCURL)
+	if err != nil {
+		return err
+	}
+
+	arbClient, err := ethclient.Dial(cfg.ArbRPCURL)
+	if err != nil {
+		return err
+	}
+
+	approvalManager := repo.NewApprovalManager(entity.ToFillers(cfg.Fillers), baseClient)
+
+	srcStateManager, err := integrations.NewSrcStateManager(common.HexToAddress("0x2bCFbC4Dd2Af9Af0458c9aD179A7A5791b0A9502"), arbClient)
+	if err != nil {
+		return err
+	}
+
+	svc := attestation.NewAggregator(node, attestation.NewAttestor(node, signer, srcStateManager))
 	if strings.Contains(configPath, "node1") {
-		go test(ctx, svc)
+		go test(ctx, svc, approvalManager, srcStateManager, arbClient, baseClient)
 	}
 	return svc.Run(ctx)
 }
 
-func test(ctx context.Context, agg *attestation.Aggregator) {
+func test(
+	ctx context.Context,
+	agg *attestation.Aggregator,
+	manager *repo.ApprovalManager,
+	stateManager *integrations.SrcStateManager,
+	src *ethclient.Client,
+	dest *ethclient.Client,
+) {
 	<-time.After(time.Second * 5)
 
-	req := entity.AttestOrderPayload{
-		OrderID:         "0xabcd",
-		TransactionHash: common.HexToHash("0x1234"),
+	solvver, err := solver.NewSolver(stateManager, manager, dest, src)
+	if err != nil {
+		panic(err)
 	}
 
-	resp, err := agg.Aggregate(ctx, req, 3)
-	fmt.Println(resp, err)
+	ord, err := solvver.Solve(ctx, common.HexToHash(""))
+	aggSig, err := agg.Aggregate(ctx, *ord, 2)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(aggSig)
 }
