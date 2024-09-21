@@ -5,11 +5,6 @@
         "internalType": "address",
         "name": "_addressRegistry",
         "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_baseBridgeToken",
-        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
@@ -331,7 +326,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct ISourceOpStateManager.FeesData",
+        "internalType": "struct IEntity.FeesData",
         "name": "fees",
         "type": "tuple"
       }
@@ -348,6 +343,24 @@
       }
     ],
     "name": "registerOperator",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "sweep",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -377,7 +390,7 @@
             "type": "bool"
           }
         ],
-        "internalType": "struct ISourceOpStateManager.OperatorData",
+        "internalType": "struct IEntity.OperatorData",
         "name": "newOperatorData",
         "type": "tuple"
       },
@@ -435,7 +448,7 @@
             "type": "address"
           }
         ],
-        "internalType": "struct ISourceOpStateManager.FulfillerData[]",
+        "internalType": "struct IEntity.FulfillerData[]",
         "name": "fulfillerData",
         "type": "tuple[]"
       },
