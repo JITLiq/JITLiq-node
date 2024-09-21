@@ -14,6 +14,7 @@ type Order struct {
 }
 
 type AttestOrderPayload struct {
+	Data      OrderData      `json:"data"`
 	OrderID   string         `json:"orderId"`
 	Operator  common.Address `json:"operator"`
 	Signature string         `json:"signature"`
