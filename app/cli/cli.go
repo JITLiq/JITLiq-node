@@ -3,6 +3,7 @@ package cli
 import (
 	"context"
 
+	"github.com/JITLiq/node/app/dashboard"
 	"github.com/JITLiq/node/app/peer"
 	"github.com/urfave/cli/v3"
 )
@@ -27,6 +28,21 @@ func BuildCLI() *cli.Command {
 				},
 				Action: func(ctx context.Context, _ *cli.Command) error {
 					return peer.Run(ctx, envPath)
+				},
+			},
+			{
+				Name:    "dashboard",
+				Aliases: []string{"dash"},
+				Usage:   "Runs http server",
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:        "env",
+						Required:    true,
+						Destination: &envPath,
+					},
+				},
+				Action: func(ctx context.Context, _ *cli.Command) error {
+					return dashboard.Run(ctx, envPath)
 				},
 			},
 		},
