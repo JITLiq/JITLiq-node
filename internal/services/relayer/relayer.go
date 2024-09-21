@@ -3,7 +3,6 @@ package relayer
 import (
 	"context"
 	"fmt"
-	"math/big"
 	"time"
 
 	"github.com/JITLiq/node/abis/destentrypoint"
@@ -102,11 +101,25 @@ func (o *OrderRelayer) RelayOrder(ctx context.Context, payloads []entity.AttestO
 	}
 	log.Info("relaying payload")
 
+	quotePayload, err := hexutil.Decode("0x000000000000000000000000000000000000000000000000000000000000002078766d1d775785b872fe600acc93d42bb9bccb7657b996f30fbbf89b2174a8270000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000186a0000000000000000000000000b04689536db9f3910727648264389d9ddc2c9dcd")
+	if err != nil {
+		return nil, err
+
+	}
+
+	quoteFee, err := o.transactor.LzQuote(&bind.CallOpts{
+		Context: ctx,
+	}, 30110, quotePayload, false)
+	if err != nil {
+		return nil, err
+
+	}
+
 	order, err := o.transactor.FulfillOrder(&bind.TransactOpts{
 		Signer:  o.signer.TransactionSignerHook,
 		Context: ctx,
 		From:    o.signer.Signer(),
-		Value:   new(big.Int).SetInt64(28237182426157),
+		Value:   quoteFee.NativeFee,
 	}, orderID, orderData, fillers, sigBytes)
 	if err != nil {
 		return nil, err
