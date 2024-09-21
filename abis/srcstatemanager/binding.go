@@ -29,20 +29,20 @@ var (
 	_ = abi.ConvertType
 )
 
-// ISourceOpStateManagerFeesData is an auto generated low-level Go binding around an user-defined struct.
-type ISourceOpStateManagerFeesData struct {
+// IEntityFeesData is an auto generated low-level Go binding around an user-defined struct.
+type IEntityFeesData struct {
 	OperationFee *big.Int
 	BridgeFee    *big.Int
 }
 
-// ISourceOpStateManagerFulfillerData is an auto generated low-level Go binding around an user-defined struct.
-type ISourceOpStateManagerFulfillerData struct {
+// IEntityFulfillerData is an auto generated low-level Go binding around an user-defined struct.
+type IEntityFulfillerData struct {
 	FulfillAmount *big.Int
 	Fulfiller     common.Address
 }
 
-// ISourceOpStateManagerOperatorData is an auto generated low-level Go binding around an user-defined struct.
-type ISourceOpStateManagerOperatorData struct {
+// IEntityOperatorData is an auto generated low-level Go binding around an user-defined struct.
+type IEntityOperatorData struct {
 	CurrentStake   *big.Int
 	CurrentHolding *big.Int
 	Registered     bool
@@ -50,7 +50,7 @@ type ISourceOpStateManagerOperatorData struct {
 
 // SrcstatemanagerMetaData contains all meta data concerning the Srcstatemanager contract.
 var SrcstatemanagerMetaData = &bind.MetaData{
-	ABI: "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_addressRegistry\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_baseBridgeToken\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"AlreadyRegistered\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InsufficientFunds\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidAddress\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidAddressRegistry\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"NotGovernance\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NotRegistered\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"OnlyEntrypoint\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"stakeAmount\",\"type\":\"uint256\"}],\"name\":\"OperatorStaked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"}],\"name\":\"OrderCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"}],\"name\":\"OrderFulfilled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"withdrawAmount\",\"type\":\"uint256\"}],\"name\":\"WithdrawalInitiated\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"LP_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"MAX_BPS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"OPERATOR_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"addressRegistry\",\"outputs\":[{\"internalType\":\"contractAddressRegistry\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"baseBridgeToken\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"}],\"name\":\"completeOrder\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"},{\"internalType\":\"uint32\",\"name\":\"expiry\",\"type\":\"uint32\"},{\"internalType\":\"uint256\",\"name\":\"orderAmount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"destAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"operationFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"bridgeFee\",\"type\":\"uint256\"}],\"name\":\"createOrder\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"stakeAmount\",\"type\":\"uint256\"}],\"name\":\"increaseStake\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"operatorData\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"currentStake\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"currentHolding\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"registered\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"orderData\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"fulfilled\",\"type\":\"bool\"},{\"internalType\":\"uint32\",\"name\":\"expiry\",\"type\":\"uint32\"},{\"internalType\":\"uint256\",\"name\":\"orderAmount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"destAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"operationFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"bridgeFee\",\"type\":\"uint256\"}],\"internalType\":\"structISourceOpStateManager.FeesData\",\"name\":\"fees\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"stakeAmount\",\"type\":\"uint256\"}],\"name\":\"registerOperator\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"currentStake\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"currentHolding\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"registered\",\"type\":\"bool\"}],\"internalType\":\"structISourceOpStateManager.OperatorData\",\"name\":\"newOperatorData\",\"type\":\"tuple\"},{\"internalType\":\"bool\",\"name\":\"deleteOperator\",\"type\":\"bool\"}],\"name\":\"syncOperator\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"holdingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"stakeAmount\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"init\",\"type\":\"bool\"}],\"name\":\"updateOperatorAllocation\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"fulfillAmount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"fulfiller\",\"type\":\"address\"}],\"internalType\":\"structISourceOpStateManager.FulfillerData[]\",\"name\":\"fulfillerData\",\"type\":\"tuple[]\"},{\"internalType\":\"uint256\",\"name\":\"lpFees\",\"type\":\"uint256\"}],\"name\":\"updatePendingRefunds\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"withdrawAmount\",\"type\":\"uint256\"}],\"name\":\"withdrawStake\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
+	ABI: "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_addressRegistry\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"AlreadyRegistered\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InsufficientFunds\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidAddress\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidAddressRegistry\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"NotGovernance\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NotRegistered\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"OnlyEntrypoint\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"stakeAmount\",\"type\":\"uint256\"}],\"name\":\"OperatorStaked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"}],\"name\":\"OrderCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"}],\"name\":\"OrderFulfilled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"withdrawAmount\",\"type\":\"uint256\"}],\"name\":\"WithdrawalInitiated\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"LP_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"MAX_BPS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"OPERATOR_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"addressRegistry\",\"outputs\":[{\"internalType\":\"contractAddressRegistry\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"baseBridgeToken\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"}],\"name\":\"completeOrder\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"orderId\",\"type\":\"bytes32\"},{\"internalType\":\"uint32\",\"name\":\"expiry\",\"type\":\"uint32\"},{\"internalType\":\"uint256\",\"name\":\"orderAmount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"destAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"operationFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"bridgeFee\",\"type\":\"uint256\"}],\"name\":\"createOrder\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"stakeAmount\",\"type\":\"uint256\"}],\"name\":\"increaseStake\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"operatorData\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"currentStake\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"currentHolding\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"registered\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"orderData\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"fulfilled\",\"type\":\"bool\"},{\"internalType\":\"uint32\",\"name\":\"expiry\",\"type\":\"uint32\"},{\"internalType\":\"uint256\",\"name\":\"orderAmount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"destAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"operationFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"bridgeFee\",\"type\":\"uint256\"}],\"internalType\":\"structIEntity.FeesData\",\"name\":\"fees\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"stakeAmount\",\"type\":\"uint256\"}],\"name\":\"registerOperator\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"sweep\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"currentStake\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"currentHolding\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"registered\",\"type\":\"bool\"}],\"internalType\":\"structIEntity.OperatorData\",\"name\":\"newOperatorData\",\"type\":\"tuple\"},{\"internalType\":\"bool\",\"name\":\"deleteOperator\",\"type\":\"bool\"}],\"name\":\"syncOperator\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"operator\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"holdingAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"stakeAmount\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"init\",\"type\":\"bool\"}],\"name\":\"updateOperatorAllocation\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"fulfillAmount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"fulfiller\",\"type\":\"address\"}],\"internalType\":\"structIEntity.FulfillerData[]\",\"name\":\"fulfillerData\",\"type\":\"tuple[]\"},{\"internalType\":\"uint256\",\"name\":\"lpFees\",\"type\":\"uint256\"}],\"name\":\"updatePendingRefunds\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"withdrawAmount\",\"type\":\"uint256\"}],\"name\":\"withdrawStake\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
 }
 
 // SrcstatemanagerABI is the input ABI used to generate the binding from.
@@ -413,7 +413,7 @@ func (_Srcstatemanager *SrcstatemanagerCaller) OrderData(opts *bind.CallOpts, ar
 	OrderAmount *big.Int
 	DestAddress common.Address
 	Operator    common.Address
-	Fees        ISourceOpStateManagerFeesData
+	Fees        IEntityFeesData
 }, error) {
 	var out []interface{}
 	err := _Srcstatemanager.contract.Call(opts, &out, "orderData", arg0)
@@ -424,7 +424,7 @@ func (_Srcstatemanager *SrcstatemanagerCaller) OrderData(opts *bind.CallOpts, ar
 		OrderAmount *big.Int
 		DestAddress common.Address
 		Operator    common.Address
-		Fees        ISourceOpStateManagerFeesData
+		Fees        IEntityFeesData
 	})
 	if err != nil {
 		return *outstruct, err
@@ -435,7 +435,7 @@ func (_Srcstatemanager *SrcstatemanagerCaller) OrderData(opts *bind.CallOpts, ar
 	outstruct.OrderAmount = *abi.ConvertType(out[2], new(*big.Int)).(**big.Int)
 	outstruct.DestAddress = *abi.ConvertType(out[3], new(common.Address)).(*common.Address)
 	outstruct.Operator = *abi.ConvertType(out[4], new(common.Address)).(*common.Address)
-	outstruct.Fees = *abi.ConvertType(out[5], new(ISourceOpStateManagerFeesData)).(*ISourceOpStateManagerFeesData)
+	outstruct.Fees = *abi.ConvertType(out[5], new(IEntityFeesData)).(*IEntityFeesData)
 
 	return *outstruct, err
 
@@ -450,7 +450,7 @@ func (_Srcstatemanager *SrcstatemanagerSession) OrderData(arg0 [32]byte) (struct
 	OrderAmount *big.Int
 	DestAddress common.Address
 	Operator    common.Address
-	Fees        ISourceOpStateManagerFeesData
+	Fees        IEntityFeesData
 }, error) {
 	return _Srcstatemanager.Contract.OrderData(&_Srcstatemanager.CallOpts, arg0)
 }
@@ -464,7 +464,7 @@ func (_Srcstatemanager *SrcstatemanagerCallerSession) OrderData(arg0 [32]byte) (
 	OrderAmount *big.Int
 	DestAddress common.Address
 	Operator    common.Address
-	Fees        ISourceOpStateManagerFeesData
+	Fees        IEntityFeesData
 }, error) {
 	return _Srcstatemanager.Contract.OrderData(&_Srcstatemanager.CallOpts, arg0)
 }
@@ -553,24 +553,45 @@ func (_Srcstatemanager *SrcstatemanagerTransactorSession) RegisterOperator(stake
 	return _Srcstatemanager.Contract.RegisterOperator(&_Srcstatemanager.TransactOpts, stakeAmount)
 }
 
+// Sweep is a paid mutator transaction binding the contract method 0x6ea056a9.
+//
+// Solidity: function sweep(address token, uint256 amount) returns()
+func (_Srcstatemanager *SrcstatemanagerTransactor) Sweep(opts *bind.TransactOpts, token common.Address, amount *big.Int) (*types.Transaction, error) {
+	return _Srcstatemanager.contract.Transact(opts, "sweep", token, amount)
+}
+
+// Sweep is a paid mutator transaction binding the contract method 0x6ea056a9.
+//
+// Solidity: function sweep(address token, uint256 amount) returns()
+func (_Srcstatemanager *SrcstatemanagerSession) Sweep(token common.Address, amount *big.Int) (*types.Transaction, error) {
+	return _Srcstatemanager.Contract.Sweep(&_Srcstatemanager.TransactOpts, token, amount)
+}
+
+// Sweep is a paid mutator transaction binding the contract method 0x6ea056a9.
+//
+// Solidity: function sweep(address token, uint256 amount) returns()
+func (_Srcstatemanager *SrcstatemanagerTransactorSession) Sweep(token common.Address, amount *big.Int) (*types.Transaction, error) {
+	return _Srcstatemanager.Contract.Sweep(&_Srcstatemanager.TransactOpts, token, amount)
+}
+
 // SyncOperator is a paid mutator transaction binding the contract method 0x4a2d72ff.
 //
 // Solidity: function syncOperator(address operator, (uint256,uint256,bool) newOperatorData, bool deleteOperator) returns()
-func (_Srcstatemanager *SrcstatemanagerTransactor) SyncOperator(opts *bind.TransactOpts, operator common.Address, newOperatorData ISourceOpStateManagerOperatorData, deleteOperator bool) (*types.Transaction, error) {
+func (_Srcstatemanager *SrcstatemanagerTransactor) SyncOperator(opts *bind.TransactOpts, operator common.Address, newOperatorData IEntityOperatorData, deleteOperator bool) (*types.Transaction, error) {
 	return _Srcstatemanager.contract.Transact(opts, "syncOperator", operator, newOperatorData, deleteOperator)
 }
 
 // SyncOperator is a paid mutator transaction binding the contract method 0x4a2d72ff.
 //
 // Solidity: function syncOperator(address operator, (uint256,uint256,bool) newOperatorData, bool deleteOperator) returns()
-func (_Srcstatemanager *SrcstatemanagerSession) SyncOperator(operator common.Address, newOperatorData ISourceOpStateManagerOperatorData, deleteOperator bool) (*types.Transaction, error) {
+func (_Srcstatemanager *SrcstatemanagerSession) SyncOperator(operator common.Address, newOperatorData IEntityOperatorData, deleteOperator bool) (*types.Transaction, error) {
 	return _Srcstatemanager.Contract.SyncOperator(&_Srcstatemanager.TransactOpts, operator, newOperatorData, deleteOperator)
 }
 
 // SyncOperator is a paid mutator transaction binding the contract method 0x4a2d72ff.
 //
 // Solidity: function syncOperator(address operator, (uint256,uint256,bool) newOperatorData, bool deleteOperator) returns()
-func (_Srcstatemanager *SrcstatemanagerTransactorSession) SyncOperator(operator common.Address, newOperatorData ISourceOpStateManagerOperatorData, deleteOperator bool) (*types.Transaction, error) {
+func (_Srcstatemanager *SrcstatemanagerTransactorSession) SyncOperator(operator common.Address, newOperatorData IEntityOperatorData, deleteOperator bool) (*types.Transaction, error) {
 	return _Srcstatemanager.Contract.SyncOperator(&_Srcstatemanager.TransactOpts, operator, newOperatorData, deleteOperator)
 }
 
@@ -598,21 +619,21 @@ func (_Srcstatemanager *SrcstatemanagerTransactorSession) UpdateOperatorAllocati
 // UpdatePendingRefunds is a paid mutator transaction binding the contract method 0x0e1aa5f5.
 //
 // Solidity: function updatePendingRefunds((uint256,address)[] fulfillerData, uint256 lpFees) returns()
-func (_Srcstatemanager *SrcstatemanagerTransactor) UpdatePendingRefunds(opts *bind.TransactOpts, fulfillerData []ISourceOpStateManagerFulfillerData, lpFees *big.Int) (*types.Transaction, error) {
+func (_Srcstatemanager *SrcstatemanagerTransactor) UpdatePendingRefunds(opts *bind.TransactOpts, fulfillerData []IEntityFulfillerData, lpFees *big.Int) (*types.Transaction, error) {
 	return _Srcstatemanager.contract.Transact(opts, "updatePendingRefunds", fulfillerData, lpFees)
 }
 
 // UpdatePendingRefunds is a paid mutator transaction binding the contract method 0x0e1aa5f5.
 //
 // Solidity: function updatePendingRefunds((uint256,address)[] fulfillerData, uint256 lpFees) returns()
-func (_Srcstatemanager *SrcstatemanagerSession) UpdatePendingRefunds(fulfillerData []ISourceOpStateManagerFulfillerData, lpFees *big.Int) (*types.Transaction, error) {
+func (_Srcstatemanager *SrcstatemanagerSession) UpdatePendingRefunds(fulfillerData []IEntityFulfillerData, lpFees *big.Int) (*types.Transaction, error) {
 	return _Srcstatemanager.Contract.UpdatePendingRefunds(&_Srcstatemanager.TransactOpts, fulfillerData, lpFees)
 }
 
 // UpdatePendingRefunds is a paid mutator transaction binding the contract method 0x0e1aa5f5.
 //
 // Solidity: function updatePendingRefunds((uint256,address)[] fulfillerData, uint256 lpFees) returns()
-func (_Srcstatemanager *SrcstatemanagerTransactorSession) UpdatePendingRefunds(fulfillerData []ISourceOpStateManagerFulfillerData, lpFees *big.Int) (*types.Transaction, error) {
+func (_Srcstatemanager *SrcstatemanagerTransactorSession) UpdatePendingRefunds(fulfillerData []IEntityFulfillerData, lpFees *big.Int) (*types.Transaction, error) {
 	return _Srcstatemanager.Contract.UpdatePendingRefunds(&_Srcstatemanager.TransactOpts, fulfillerData, lpFees)
 }
 
