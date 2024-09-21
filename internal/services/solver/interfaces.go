@@ -31,6 +31,6 @@ type srcStateManager interface {
 		OrderAmount *big.Int
 		DestAddress common.Address
 		Operator    common.Address
-		Fees        srcstatemanager.ISourceOpStateManagerFeesData
+		Fees        srcstatemanager.IEntityFeesData
 	}, error)
 }

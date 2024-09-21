@@ -9,7 +9,6 @@ import (
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/crypto"
 )
 
 type Attestor struct {
@@ -19,11 +18,17 @@ type Attestor struct {
 	blockReader ethereum.BlockNumberReader
 }
 
-func NewAttestor(pub publisher, manager keyManager, validator validator) *Attestor {
+func NewAttestor(
+	pub publisher,
+	manager keyManager,
+	validator validator,
+	blockReader ethereum.BlockNumberReader,
+) *Attestor {
 	return &Attestor{
-		pub:        pub,
-		keyManager: manager,
-		validator:  validator,
+		pub:         pub,
+		keyManager:  manager,
+		validator:   validator,
+		blockReader: blockReader,
 	}
 }
 
@@ -45,7 +50,7 @@ func (a *Attestor) AttestAndPublish(ctx context.Context, msg entity.AttestOrderP
 		return err
 	}
 
-	sig, err := a.keyManager.Sign(ctx, hexutil.Encode(crypto.Keccak256(orderID)))
+	sig, err := a.keyManager.Sign(ctx, hexutil.Encode(orderID))
 	msg.Signature = hexutil.Encode(sig)
 	msg.Operator = a.keyManager.Signer()
 	data, err := json.Marshal(msg)

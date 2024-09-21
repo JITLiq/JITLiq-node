@@ -59,5 +59,6 @@ func (s *Solver) Solve(ctx context.Context, orderID common.Hash) (*entity.Attest
 		OrderID: orderID.Hex(),
 		Orders:  solved,
 		ChainID: entity.ChainIDArb,
+		Data:    order,
 	}, nil
 }

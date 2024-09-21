@@ -14,17 +14,26 @@ import (
 )
 
 type SrcStateManager struct {
-	managerCaller  *srcstatemanager.SrcstatemanagerCaller
-	contractReader bind.ContractCaller
+	managerCaller      *srcstatemanager.SrcstatemanagerCaller
+	srcContractCaller  bind.ContractCaller
+	destContractCaller bind.ContractCaller
 }
 
-func NewSrcStateManager(addr common.Address, caller bind.ContractCaller) (*SrcStateManager, error) {
-	c, err := srcstatemanager.NewSrcstatemanagerCaller(addr, caller)
+func NewSrcStateManager(
+	addr common.Address,
+	srcContractCaller bind.ContractCaller,
+	destContractCaller bind.ContractCaller,
+) (*SrcStateManager, error) {
+	c, err := srcstatemanager.NewSrcstatemanagerCaller(addr, srcContractCaller)
 	if err != nil {
 		return nil, err
 	}
 
-	return &SrcStateManager{managerCaller: c, contractReader: caller}, nil
+	return &SrcStateManager{
+		managerCaller:      c,
+		srcContractCaller:  srcContractCaller,
+		destContractCaller: destContractCaller,
+	}, nil
 }
 func (s *SrcStateManager) ValidatePendingOrder(
 	ctx context.Context,
@@ -53,7 +62,7 @@ func (s *SrcStateManager) Order(ctx context.Context, at *big.Int, orderID common
 	OrderAmount *big.Int
 	DestAddress common.Address
 	Operator    common.Address
-	Fees        srcstatemanager.ISourceOpStateManagerFeesData
+	Fees        srcstatemanager.IEntityFeesData
 }, error) {
 	orderData, err := s.managerCaller.OrderData(&bind.CallOpts{
 		Context:     ctx,
@@ -67,7 +76,7 @@ func (s *SrcStateManager) Order(ctx context.Context, at *big.Int, orderID common
 			OrderAmount *big.Int
 			DestAddress common.Address
 			Operator    common.Address
-			Fees        srcstatemanager.ISourceOpStateManagerFeesData
+			Fees        srcstatemanager.IEntityFeesData
 		}{}, nil
 	}
 
@@ -80,8 +89,7 @@ func (s *SrcStateManager) ValidateSolvedOrder(
 	orders []entity.Order,
 ) error {
 	orderData, err := s.managerCaller.OrderData(&bind.CallOpts{
-		Context:     ctx,
-		BlockNumber: at,
+		Context: ctx,
 	}, orderID)
 
 	if err != nil {
@@ -102,7 +110,7 @@ func (s *SrcStateManager) validateFillers(
 	requestedAmt *big.Int,
 ) error {
 	pulledAmt := new(big.Int).SetInt64(0)
-	erc20Reader, err := erc20.NewErc20Caller(entity.BaseUsdc, s.contractReader)
+	erc20Reader, err := erc20.NewErc20Caller(entity.BaseUsdc, s.destContractCaller)
 	if err != nil {
 		return err
 	}
