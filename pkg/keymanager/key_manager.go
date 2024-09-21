@@ -3,14 +3,18 @@ package keymanager
 import (
 	"context"
 	"crypto/ecdsa"
+	"fmt"
+	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
 type KeyManager struct {
 	address    common.Address
 	privateKey *ecdsa.PrivateKey
+	chainID    *big.Int
 }
 
 func (m *KeyManager) Sign(_ context.Context, hash string) ([]byte, error) {
@@ -26,11 +30,20 @@ func (m *KeyManager) Sign(_ context.Context, hash string) ([]byte, error) {
 	return signature, nil
 }
 
+func (m *KeyManager) SignTransaction(txn *types.Transaction) (*types.Transaction, error) {
+	return types.SignTx(txn, types.LatestSignerForChainID(m.chainID), m.privateKey)
+}
+
+func (m *KeyManager) TransactionSignerHook(address common.Address, txn *types.Transaction) (*types.Transaction, error) {
+	fmt.Println(address)
+	return types.SignTx(txn, types.LatestSignerForChainID(m.chainID), m.privateKey)
+}
+
 func (m *KeyManager) Signer() common.Address {
 	return m.address
 }
 
-func NewKeyManager(key string) (*KeyManager, error) {
+func NewKeyManager(key string, chainID *big.Int) (*KeyManager, error) {
 	ecdsaKey, err := crypto.HexToECDSA(key)
 	if err != nil {
 		return nil, err
@@ -39,5 +52,6 @@ func NewKeyManager(key string) (*KeyManager, error) {
 	return &KeyManager{
 		address:    crypto.PubkeyToAddress(ecdsaKey.PublicKey),
 		privateKey: ecdsaKey,
+		chainID:    chainID,
 	}, nil
 }
