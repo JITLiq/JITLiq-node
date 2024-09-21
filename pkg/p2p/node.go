@@ -16,7 +16,7 @@ import (
 
 const (
 	serviceNode         = "node"
-	DiscoveryServiceTag = "jit-liq-node"
+	DiscoveryServiceTag = "jit-liq-node-discovery"
 	MaxConnectDelay     = 5
 	maxRetries          = 5
 )
@@ -52,6 +52,7 @@ func (n *Node) HandlePeerFound(pi peer.AddrInfo) {
 func (n *Node) connectWithRetry(ctx context.Context, pi peer.AddrInfo) {
 	for i := 0; i < maxRetries; i++ {
 		n.logger.Info("trying to connect to peer", zap.String("id", pi.ID.String()))
+
 		<-time.After(time.Second * time.Duration(rand.Intn(MaxConnectDelay)))
 		err := n.host.Connect(ctx, pi)
 		if err == nil {
